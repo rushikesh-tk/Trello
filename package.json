@@ -2,13 +2,17 @@
   "name": "trello",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node backend/server",
+    "client": "npm start --prefix frontend",
+    "server": "node backend/server",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Rushikesh",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "express": "^4.19.2",
     "mongoose": "^8.5.1",
     "nodemon": "^3.1.4"
