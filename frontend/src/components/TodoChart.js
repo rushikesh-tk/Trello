@@ -5,7 +5,7 @@ import Drag from "../components/Drag/Drag";
 
 const dummyData = [
   {
-    id: 1,
+    id: 0,
     name: "List 1",
     cards: [
       { id: 1, title: "Card 1" },
@@ -16,7 +16,7 @@ const dummyData = [
     ],
   },
   {
-    id: 2,
+    id: 1,
     name: "List 2",
     cards: [
       { id: 6, title: "Card 6" },
@@ -25,7 +25,7 @@ const dummyData = [
     ],
   },
   {
-    id: 3,
+    id: 2,
     name: "List 3",
     cards: [
       { id: 9, title: "Card 9" },

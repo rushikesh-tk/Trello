@@ -1,7 +1,7 @@
 import React from "react";
 
 const InputField = (props) => {
-  const { label, inputType, placeholder, id } = props;
+  const { label, inputType, placeholder, id, style, onChange, value } = props;
 
   return (
     <div>
@@ -13,6 +13,9 @@ const InputField = (props) => {
         id={id}
         className="mt-1 p-2 block w-full border rounded-md focus:outline-none mb-4"
         placeholder={placeholder}
+        style={style}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );

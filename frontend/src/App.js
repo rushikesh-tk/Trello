@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import NavBar from "./components/Navbar";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
           </Routes>
         </div>
+        <Toaster />
       </div>
     </Router>
   );

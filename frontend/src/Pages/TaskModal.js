@@ -1,5 +1,4 @@
 import React from "react";
-import InputField from "../components/InputField";
 import Button from "../components/Button";
 
 const TaskModal = (props) => {
@@ -15,7 +14,7 @@ const TaskModal = (props) => {
         <input
           type="text"
           id="Title"
-          className="mt-1 p-2 block w-full border rounded-md focus:outline-none mb-4"
+          className="mt-1 p-2 block w-full border border-gray-900 rounded-md focus:outline-none mb-4"
           placeholder="Enter title"
         />
       </div>
@@ -30,7 +29,7 @@ const TaskModal = (props) => {
         <textarea
           type="text"
           id="description"
-          className="mt-1 p-2 block w-full border rounded-md focus:outline-none mb-4 min-h-40 "
+          className="mt-1 p-2 block w-full border border-gray-900 rounded-md focus:outline-none mb-4 min-h-40 "
           placeholder="Enter description"
         />
 
