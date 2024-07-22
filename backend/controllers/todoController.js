@@ -1,0 +1,111 @@
+import asyncHandler from "express-async-handler";
+import Todo from "../models/todoModel.js";
+
+const getTodos = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+
+  const data = await Todo.findOne({ user: _id });
+
+  if (data) {
+    res.status(200).json({
+      _id: data._id,
+      todos: data.todos,
+    });
+  } else {
+    res.status(404);
+    throw new Error("Todos not found");
+  }
+});
+
+const createTodo = asyncHandler(async (req, res) => {
+  const { title, description, status } = req.body;
+  const { _id } = req.user;
+
+  if (!title || !status) {
+    res.status(400);
+    throw new Error("Title and status are required");
+  }
+
+  const todoList = await Todo.findOne({ user: _id });
+
+  if (todoList) {
+    todoList.todos.push({
+      title,
+      description,
+      status,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    await todoList.save();
+    res.status(201).json(todoList);
+  } else {
+    const newTodoList = new Todo({
+      user: _id,
+      todos: [
+        {
+          title,
+          description,
+          status,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+    });
+
+    const createdTodoList = await newTodoList.save();
+    res.status(201).json(createdTodoList);
+  }
+});
+
+const updateTodo = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { todoId, title, description, status } = req.body;
+
+  const todoList = await Todo.findOne({ user: _id });
+
+  if (todoList) {
+    const todo = todoList.todos.id(todoId);
+
+    if (todo) {
+      todo.title = title || todo.title;
+      todo.description = description || todo.description;
+      todo.status = status !== undefined ? status : todo.status;
+      todo.updatedAt = new Date();
+
+      await todoList.save();
+      res.status(200).json(todo);
+    } else {
+      res.status(404);
+      throw new Error("Todo not found");
+    }
+  } else {
+    res.status(404);
+    throw new Error("Todo list not found");
+  }
+});
+
+const deleteTodo = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { todoId } = req.body;
+
+  const todoList = await Todo.findOne({ user: _id });
+
+  if (todoList) {
+    const todo = todoList.todos.id(todoId);
+
+    if (todo) {
+      todo.remove();
+      await todoList.save();
+      res.status(200).json({ message: "Todo removed" });
+    } else {
+      res.status(404);
+      throw new Error("Todo not found");
+    }
+  } else {
+    res.status(404);
+    throw new Error("Todo list not found");
+  }
+});
+
+export { getTodos, createTodo, updateTodo, deleteTodo };
