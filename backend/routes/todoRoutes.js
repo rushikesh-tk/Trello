@@ -12,6 +12,6 @@ const router = express.Router();
 router.route("/").get(protect, getTodos);
 router.route("/create").post(protect, createTodo);
 router.route("/update").put(protect, updateTodo);
-router.route("/delete").delete(protect, deleteTodo);
+router.route("/delete/:id").delete(protect, deleteTodo);
 
 export default router;
