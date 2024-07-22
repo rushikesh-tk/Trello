@@ -9,11 +9,10 @@ const getTodos = asyncHandler(async (req, res) => {
   if (data) {
     res.status(200).json({
       _id: data._id,
-      todos: data.todos,
+      todos: data.todos.length > 0 ? data.todos : [],
     });
   } else {
-    res.status(404);
-    throw new Error("Todos not found");
+    res.status(200).json({ todos: [] });
   }
 });
 
@@ -21,9 +20,9 @@ const createTodo = asyncHandler(async (req, res) => {
   const { title, description, status } = req.body;
   const { _id } = req.user;
 
-  if (!title || !status) {
+  if (!title) {
     res.status(400);
-    throw new Error("Title and status are required");
+    throw new Error("Title is required");
   }
 
   const todoList = await Todo.findOne({ user: _id });
@@ -87,7 +86,7 @@ const updateTodo = asyncHandler(async (req, res) => {
 
 const deleteTodo = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { todoId } = req.body;
+  const todoId = req.params.id;
 
   const todoList = await Todo.findOne({ user: _id });
 
