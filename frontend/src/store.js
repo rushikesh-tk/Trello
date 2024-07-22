@@ -1,10 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { thunk } from "redux-thunk";
 import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
+import {
+  createTodoReducer,
+  deleteTodoReducer,
+  getTodosReducer,
+  updateTodoReducer,
+} from "./reducers/todosReducers";
 
 const reducer = {
   userRegister: userRegisterReducer,
   userLogin: userLoginReducer,
+  createTodo: createTodoReducer,
+  updateTodo: updateTodoReducer,
+  deleteTodo: deleteTodoReducer,
+  getTodo: getTodosReducer,
 };
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
