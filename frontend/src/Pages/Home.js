@@ -9,7 +9,7 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="h-screen flex items-start justify-center bg-gray-600">
+    <div className="h-full flex items-start justify-center bg-gray-600">
       <div className="text-3x w-11/12 h-5/6 mt-5">
         <Button
           text="Add Task"
