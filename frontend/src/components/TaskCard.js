@@ -1,7 +1,7 @@
 import React from "react";
 
 const TaskCard = (props) => {
-  const { title, description = "Drag and drop me!", dragItem } = props;
+  const { title, description, dragItem } = props;
 
   return (
     <div
