@@ -1,11 +1,45 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
+import { register } from "../actions/userActions";
 
 const Signup = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, userInfo, error } = userRegister;
+
+  const handleCreateAccount = () => {
+    if (password !== confirmPassword) {
+      toast.error("Password do not match");
+    } else {
+      toast
+        .promise(dispatch(register(firstName, lastName, email, password)), {
+          loading: "Creating account...",
+          success: "Account created successfully!!",
+          error: error ? error : "Network error",
+        })
+        .then(() => {
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log("Error=>", err);
+        });
+    }
+  };
+
   return (
-    <div className="h-screen flex flex-col items-center justify-start pt-16 bg-gray-600">
+    <div className="h-full flex flex-col items-center justify-start pt-16 bg-gray-600">
       <h1 className="text-3xl mb-6 text-white text-center font-bold w-1/4">
         Welcome Buddy !!
       </h1>
@@ -15,6 +49,8 @@ const Signup = () => {
           id="firstname"
           inputType="text"
           placeholder="Enter first name"
+          value={firstName}
+          onChange={setFirstName}
         />
 
         <InputField
@@ -22,6 +58,8 @@ const Signup = () => {
           id="lastname"
           inputType="text"
           placeholder="Enter last name"
+          value={lastName}
+          onChange={setLastName}
         />
 
         <InputField
@@ -29,6 +67,8 @@ const Signup = () => {
           id="email"
           inputType="email"
           placeholder="Enter email"
+          value={email}
+          onChange={setEmail}
         />
 
         <InputField
@@ -36,6 +76,8 @@ const Signup = () => {
           id="password"
           inputType="password"
           placeholder="Enter password"
+          value={password}
+          onChange={setPassword}
         />
 
         <InputField
@@ -43,9 +85,15 @@ const Signup = () => {
           id="confirmpassword"
           inputType="password"
           placeholder="Enter password"
+          value={confirmPassword}
+          onChange={setConfirmPassword}
         />
 
-        <Button text="Create account " bgColor="blue" />
+        <Button
+          text={!loading ? "Create account" : "Loading..."}
+          bgColor="blue"
+          onClick={handleCreateAccount}
+        />
 
         <div className="mt-4 text-center">
           <p className="text-sm text-white">
