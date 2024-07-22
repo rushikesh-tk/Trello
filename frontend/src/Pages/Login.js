@@ -70,9 +70,10 @@ const Login = () => {
         />
 
         <Button
-          text={loading ? "Loading..." : "Login"}
+          text="Login"
           bgColor="blue"
           onClick={handleLogin}
+          loading={loading}
         />
 
         <div className="mt-4 text-center">
