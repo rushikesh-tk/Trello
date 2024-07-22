@@ -1,11 +1,52 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { login } from "../actions/userActions";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, userInfo, error } = userLogin;
+
+  const handleLogin = () => {
+    if (!email && !password) {
+      toast.error("Please enter credentials");
+      return;
+    }
+    if (!email) {
+      toast.error("Invalid email id");
+      return;
+    }
+
+    if (!password) {
+      toast.error("Please enter password");
+      return;
+    }
+
+    toast
+      .promise(dispatch(login(email, password)), {
+        loading: "Logging in...",
+        success: "Login successful!!",
+        error: error ? error : "Network error",
+      })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log("Error=>", err);
+      });
+  };
+
   return (
-    <div className="h-screen flex flex-col items-center justify-start pt-16 bg-gray-600">
+    <div className="h-full flex flex-col items-center justify-start pt-16 bg-gray-600">
       <h1 className="text-3xl mb-6 text-white text-center font-bold w-1/4">
         Welcome back
       </h1>
@@ -15,6 +56,8 @@ const Login = () => {
           id="email"
           inputType="email"
           placeholder="Enter email"
+          value={email}
+          onChange={setEmail}
         />
 
         <InputField
@@ -22,9 +65,15 @@ const Login = () => {
           id="password"
           inputType="password"
           placeholder="Enter password"
+          value={password}
+          onChange={setPassword}
         />
 
-        <Button text="Login " bgColor="blue" />
+        <Button
+          text={loading ? "Loading..." : "Login"}
+          bgColor="blue"
+          onClick={handleLogin}
+        />
 
         <div className="mt-4 text-center">
           <p className="text-sm text-white">
@@ -36,7 +85,7 @@ const Login = () => {
         </div>
 
         <div className="mt-4">
-          <Button text="Login via Google" bgColor="red" />
+          <Button text="Login via Google" bgColor="blue" />
         </div>
       </div>
     </div>
