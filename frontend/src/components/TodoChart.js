@@ -3,12 +3,25 @@ import TodoBlock from "./TodoBlock";
 import TaskCard from "./TaskCard";
 import Drag from "../components/Drag/Drag";
 import Loader from "./Loader";
+import Modal from "./Modal";
+import TaskModal from "../Pages/TaskModal";
+import { updateTodo } from "../actions/todoActions";
+import { useDispatch } from "react-redux";
 
 const STATUS_TITLES = ["To Do", "In Progress", "Done"];
 
-const TodoChart = ({ todoListData, loading, error }) => {
+const TodoChart = ({
+  todoListData,
+  loading,
+  error,
+  handleView,
+  setCurrTodoId,
+  handleUpdateTodo,
+}) => {
   const [todosData, setTodosData] = useState([]);
   const [data, setData] = useState([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTodosData(todoListData);
@@ -51,6 +64,8 @@ const TodoChart = ({ todoListData, loading, error }) => {
       newData[newListPosition].cards.splice(newCardPosition, 0, card);
 
       setData(newData);
+
+      dispatch(updateTodo(card._id, card.title, card.description, card.status));
 
       // Update the original todosData state
       setTodosData((prevTodosData) =>
@@ -113,11 +128,13 @@ const TodoChart = ({ todoListData, loading, error }) => {
                       dragType="card"
                     >
                       <TaskCard
-                        title={card.title}
-                        description={card.description}
+                        cardData={card}
                         dragItem={
                           activeItem === card.id && activeType === "card"
                         }
+                        handleView={handleView}
+                        setCurrTodoId={setCurrTodoId}
+                        handleUpdateTodo={handleUpdateTodo}
                       />
                     </Drag.DragItem>
                   </Drag.DropZone>

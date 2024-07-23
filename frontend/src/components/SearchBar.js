@@ -1,6 +1,6 @@
 import React from "react";
 
-const SearchBar = () => {
+const SearchBar = ({ searchInput, setSearchInput }) => {
   return (
     <div className="bg-white mb-2 m-2 rounded-md sm:flex  p-2 items-center sm:justify-between">
       <div className="flex items-center justify-center">
@@ -15,10 +15,10 @@ const SearchBar = () => {
           id="search"
           className="p-1 block w-full border border-gray-500 rounded-md focus:outline-none"
           placeholder="Search..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
         />
       </div>
-
-      <div>Sort By</div>
     </div>
   );
 };
