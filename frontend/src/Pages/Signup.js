@@ -17,7 +17,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, userInfo, error } = userRegister;
+  const { loading, error } = userRegister;
 
   const handleCreateAccount = () => {
     if (password !== confirmPassword) {

@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  API_BASE_URL,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -9,8 +10,7 @@ import {
   USER_REGISTER_SUCCESS,
 } from "../constants/userConst";
 
-// const API_BASE_URL = `${window.location.origin}`;
-const API_BASE_URL = "https://trello-pt9r.onrender.com";
+console.log("apibase=", API_BASE_URL);
 
 export const register = (firstName, lastName, email, password) => {
   return (dispatch) => {
@@ -104,6 +104,36 @@ export const logout = () => {
       localStorage.removeItem("userInfo");
       dispatch({ type: USER_LOGOUT });
       resolve();
+    });
+  };
+};
+
+export const googleLoginAction = (userData) => {
+  return (dispatch) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        dispatch({ type: USER_LOGIN_REQUEST });
+
+        if (userData) {
+          dispatch({ type: USER_LOGIN_SUCCESS, payload: userData });
+
+          localStorage.setItem("userInfo", JSON.stringify(userData));
+
+          resolve(userData);
+        }
+      } catch (error) {
+        const errorMessage =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+
+        dispatch({
+          type: USER_LOGIN_FAIL,
+          payload: errorMessage,
+        });
+
+        reject(errorMessage);
+      }
     });
   };
 };

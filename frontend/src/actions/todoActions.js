@@ -13,9 +13,7 @@ import {
   TODO_UPDATE_REQUEST,
   TODO_UPDATE_SUCCESS,
 } from "../constants/todosConst";
-
-// const API_BASE_URL = `${window.location.origin}`;
-const API_BASE_URL = "https://trello-pt9r.onrender.com";
+import { API_BASE_URL } from "../constants/userConst";
 
 export const getTodos = () => {
   return (dispatch, getState) => {

@@ -36,15 +36,31 @@ const NavBar = () => {
 
       <div className="ml-auto flex space-x-5">
         {userInfo ? (
-          <div className="text-white">
-            <button
-              type="button"
-              className={`w-full flex items-center justify-center font-semibold bg-red-500 text-white p-2 rounded-md hover:bg-red-600`}
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
+          <>
+            <div className="flex justify-center items-center ">
+              {userInfo && userInfo?.firstName && (
+                <div className="text-white font-bold text-lg ">
+                  Hi, {userInfo?.firstName}
+                </div>
+              )}
+              {userInfo && userInfo?.picture && (
+                <img
+                  src={userInfo?.picture}
+                  className="h-10 border border-white rounded-full ml-4"
+                />
+              )}
+            </div>
+
+            <div className="text-white">
+              <button
+                type="button"
+                className={`w-full flex items-center justify-center font-semibold bg-red-500 text-white p-2 rounded-md hover:bg-red-600`}
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          </>
         ) : (
           <>
             <Link to="/login" className="text-white">

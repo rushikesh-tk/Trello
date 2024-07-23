@@ -3,8 +3,6 @@ import TodoBlock from "./TodoBlock";
 import TaskCard from "./TaskCard";
 import Drag from "../components/Drag/Drag";
 import Loader from "./Loader";
-import Modal from "./Modal";
-import TaskModal from "../Pages/TaskModal";
 import { updateTodo } from "../actions/todoActions";
 import { useDispatch } from "react-redux";
 
@@ -73,15 +71,6 @@ const TodoChart = ({
           todo.id === card.id ? { ...todo, status: newListPosition } : todo
         )
       );
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      console.log(todosData);
-      console.log("Save successful:");
-    } catch (error) {
-      console.error("Error saving todos:", error);
     }
   };
 

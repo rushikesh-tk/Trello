@@ -5,6 +5,12 @@ import Button from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { login } from "../actions/userActions";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+import GoogleLogin from "../auth/GoogleLogin";
+
+const GOOGLE_CLIENT_ID =
+  "759415615889-5rhfkcqu921g4t8ufhimmhab9rfamlgr.apps.googleusercontent.com";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +20,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, userInfo, error } = userLogin;
+  const { loading, error } = userLogin;
 
   const handleLogin = () => {
     if (!email && !password) {
@@ -50,6 +56,7 @@ const Login = () => {
       <h1 className="text-3xl mb-6 text-white text-center font-bold w-1/4">
         Welcome back
       </h1>
+
       <div className="bg-gray-800 p-8 rounded shadow-md w-full max-w-md">
         <InputField
           label="Email"
@@ -86,7 +93,9 @@ const Login = () => {
         </div>
 
         <div className="mt-4">
-          <Button text="Login via Google" bgColor="blue" />
+          <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+            <GoogleLogin />
+          </GoogleOAuthProvider>
         </div>
       </div>
     </div>
