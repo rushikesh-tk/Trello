@@ -2,17 +2,20 @@ import asyncHandler from "express-async-handler";
 import Todo from "../models/todoModel.js";
 
 const getTodos = asyncHandler(async (req, res) => {
-  const { _id } = req.user;
+  try {
+    const { _id } = req.user; // Assuming req.user is set by authentication middleware
+    const data = await Todo.findOne({ user: _id });
 
-  const data = await Todo.findOne({ user: _id });
-
-  if (data) {
-    res.status(200).json({
-      _id: data._id,
-      todos: data.todos.length > 0 ? data.todos : [],
-    });
-  } else {
-    res.status(200).json({ todos: [] });
+    if (data) {
+      res.status(200).json({
+        _id: data._id,
+        todos: data.todos.length > 0 ? data.todos : [],
+      });
+    } else {
+      res.status(200).json({ todos: [] });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
   }
 });
 
