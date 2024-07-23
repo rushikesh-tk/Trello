@@ -90,11 +90,21 @@ const TodoChart = ({
   }
 
   if (error) {
-    return <div>Please try again !!</div>;
+    return (
+      <div className="flex text-cyan-300  text-2xl font-bold justify-center h-40 items-center ">
+        Please refresh the page !!
+      </div>
+    );
   }
 
   if (data.every((list) => list.cards.length === 0)) {
-    return <div>No tasks present, click on Add button to create</div>;
+    return (
+      <div className="flex text-cyan-300 text-center font-bold text-2xl justify-center h-40 items-center ">
+        No tasks present
+        <br />
+        Click on Add Task
+      </div>
+    );
   }
 
   return (
