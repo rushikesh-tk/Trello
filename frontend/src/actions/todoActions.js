@@ -154,7 +154,7 @@ export const updateTodo = (todoId, title, description, status) => {
   };
 };
 
-export const deleteTodo = (todoId) => {
+export const deleteTask = (todoId) => {
   return async (dispatch, getState) => {
     try {
       dispatch({
