@@ -9,6 +9,8 @@ import {
   USER_REGISTER_SUCCESS,
 } from "../constants/userConst";
 
+const API_BASE_URL = `${window.location.origin}`;
+
 export const register = (firstName, lastName, email, password) => {
   return (dispatch) => {
     return new Promise(async (resolve, reject) => {
@@ -22,7 +24,7 @@ export const register = (firstName, lastName, email, password) => {
         };
 
         const { data } = await axios.post(
-          "/api/users",
+          `${API_BASE_URL}/api/users`,
           { firstName, lastName, email, password },
           config
         );
@@ -65,7 +67,7 @@ export const login = (email, password) => {
         };
 
         const { data } = await axios.post(
-          "/api/users/login",
+          `${API_BASE_URL}/api/users/login`,
           { email, password },
           config
         );

@@ -6,7 +6,7 @@ import todoRoutes from "./routes/todoRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import cors from "cors";
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 dotenv.config();
 

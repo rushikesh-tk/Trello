@@ -14,6 +14,8 @@ import {
   TODO_UPDATE_SUCCESS,
 } from "../constants/todosConst";
 
+const API_BASE_URL = `${window.location.origin}`;
+
 export const getTodos = () => {
   return (dispatch, getState) => {
     return new Promise(async (resolve, reject) => {
@@ -33,7 +35,7 @@ export const getTodos = () => {
           },
         };
 
-        const { data } = await axios.get("/api/todos/", config);
+        const { data } = await axios.get(`${API_BASE_URL}/api/todos/`, config);
 
         dispatch({
           type: TODO_GET_SUCCESS,
@@ -78,7 +80,7 @@ export const addTodo = (title, description, status) => {
         };
 
         const { data } = await axios.post(
-          "/api/todos/create",
+          `${API_BASE_URL}/api/todos/create`,
           { title, description, status },
           config
         );
@@ -126,7 +128,7 @@ export const updateTodo = (todoId, title, description, status) => {
         };
 
         const { data } = await axios.put(
-          "/api/todos/update",
+          `${API_BASE_URL}/api/todos/update`,
           { todoId, title, description, status },
           config
         );
@@ -173,7 +175,7 @@ export const deleteTask = (todoId) => {
       };
 
       const { data } = await axios.delete(
-        `/api/todos/delete/${todoId}`,
+        `${API_BASE_URL}/api/todos/delete/${todoId}`,
         config
       );
 
