@@ -19,7 +19,7 @@ const TaskCard = ({
       .promise(dispatch(deleteTask(id)), {
         loading: "Todo deleting...",
         success: "Todo deleted!!",
-        error: "Network error",
+        error: "Something went wrong, please try again :)",
       })
       .then(() => {
         dispatch(getTodos());

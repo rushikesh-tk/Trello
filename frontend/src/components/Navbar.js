@@ -18,7 +18,7 @@ const NavBar = () => {
       .promise(dispatch(logout()), {
         loading: "Logging out...",
         success: "Logout successful!!",
-        error: "Network error",
+        error: "Something went wrong, please try again :)",
       })
       .then(() => {
         navigate("/login");

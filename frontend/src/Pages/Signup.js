@@ -27,7 +27,7 @@ const Signup = () => {
         .promise(dispatch(register(firstName, lastName, email, password)), {
           loading: "Creating account...",
           success: "Account created successfully!!",
-          error: error ? error : "Network error",
+          error: error ? error : "Something went wrong, please try again :)",
         })
         .then(() => {
           navigate("/");

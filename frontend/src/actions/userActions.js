@@ -9,7 +9,8 @@ import {
   USER_REGISTER_SUCCESS,
 } from "../constants/userConst";
 
-const API_BASE_URL = `${window.location.origin}`;
+// const API_BASE_URL = `${window.location.origin}`;
+const API_BASE_URL = "https://trello-pt9r.onrender.com";
 
 export const register = (firstName, lastName, email, password) => {
   return (dispatch) => {

@@ -35,7 +35,7 @@ const Login = () => {
       .promise(dispatch(login(email, password)), {
         loading: "Logging in...",
         success: "Login successful!!",
-        error: error ? error : "Network error",
+        error: error ? error : "Invalid email or password",
       })
       .then(() => {
         navigate("/");

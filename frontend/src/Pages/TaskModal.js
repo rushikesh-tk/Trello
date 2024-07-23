@@ -45,7 +45,7 @@ const TaskModal = ({ setShowModal, refreshTodos, type, currTodoData }) => {
       .promise(dispatch(addTodo(title, description, parseInt(status))), {
         loading: "Adding...",
         success: "Todo Added!!",
-        error: error ? error : "Network error",
+        error: error ? error : "Something went wrong, please try again :)",
       })
       .then(() => {
         setShowModal(false);
@@ -82,7 +82,7 @@ const TaskModal = ({ setShowModal, refreshTodos, type, currTodoData }) => {
         {
           loading: "Updating...",
           success: "Todo Updated!!",
-          error: error ? error : "Network error",
+          error: error ? error : "Something went wrong, please try again :)",
         }
       )
       .then(() => {
