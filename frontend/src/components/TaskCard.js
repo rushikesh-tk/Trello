@@ -40,7 +40,7 @@ const TaskCard = ({
         dragItem ? " rotate-6" : ""
       }`}
     >
-      <div className="bg-gray-500 p-3">
+      <div className="bg-gray-300 rounded-lg p-3">
         <h3 className="font-bold text-lg my-1 overflow-hidden text-ellipsis whitespace-nowrap">
           {title}
         </h3>
