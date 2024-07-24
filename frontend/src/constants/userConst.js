@@ -7,5 +7,9 @@ export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
 export const USER_LOGIN_FAIL = "USER_LOGIN_FAIL";
 export const USER_LOGOUT = "USER_LOGOUT";
 
-// export const API_BASE_URL = "http://localhost:5000";
-export const API_BASE_URL = "https://trello-pt9r.onrender.com";
+export const USER_DATA_REQUEST = "USER_DATA_REQUEST";
+export const USER_DATA_SUCCESS = "USER_DATA_SUCCESS";
+export const USER_DATA_FAIL = "USER_DATA_FAIL";
+
+// export const API_BASE_URL = "http://localhost:5000"; // For development
+export const API_BASE_URL = "https://trello-pt9r.onrender.com"; // For production

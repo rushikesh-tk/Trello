@@ -1,6 +1,9 @@
 import axios from "axios";
 import {
   API_BASE_URL,
+  USER_DATA_FAIL,
+  USER_DATA_REQUEST,
+  USER_DATA_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -129,6 +132,51 @@ export const googleLoginAction = (userData) => {
 
         dispatch({
           type: USER_LOGIN_FAIL,
+          payload: errorMessage,
+        });
+
+        reject(errorMessage);
+      }
+    });
+  };
+};
+
+export const getUserData = () => {
+  return (dispatch, getState) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        dispatch({ type: USER_DATA_REQUEST });
+
+        const {
+          userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        };
+
+        const { data } = await axios.get(
+          `${API_BASE_URL}/api/users/userdata`,
+          config
+        );
+
+        dispatch({
+          type: USER_DATA_SUCCESS,
+          payload: data,
+        });
+
+        resolve(data);
+      } catch (error) {
+        const errorMessage =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+
+        dispatch({
+          type: USER_DATA_FAIL,
           payload: errorMessage,
         });
 

@@ -48,18 +48,23 @@ const TaskCard = ({
           {description}
         </p>
       </div>
-      <div className="flex justify-end mt-4 space-x-2">
+      <div className="sm:flex items-center justify-end sm:space-x-2">
         <Button
           text="Delete"
-          style={{ backgroundColor: "red" }}
+          style={{ backgroundColor: "red", marginTop: "1rem" }}
           onClick={handleDelete}
         />
         <Button
           text="Edit"
-          style={{ backgroundColor: "gray" }}
+          style={{ backgroundColor: "gray", marginTop: "1rem" }}
           onClick={() => handleUpdateTodo(cardData)}
         />
-        <Button text="View" bgColor="blue" onClick={saveCurrTodoId} />
+        <Button
+          text="View"
+          bgColor="blue"
+          onClick={saveCurrTodoId}
+          style={{ marginTop: "1rem" }}
+        />
       </div>
     </div>
   );

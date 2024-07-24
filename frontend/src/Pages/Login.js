@@ -4,7 +4,7 @@ import InputField from "../components/InputField";
 import Button from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { login } from "../actions/userActions";
+import { getUserData, login } from "../actions/userActions";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import GoogleLogin from "../auth/GoogleLogin";
@@ -45,6 +45,7 @@ const Login = () => {
       })
       .then(() => {
         navigate("/");
+        dispatch(getUserData());
       })
       .catch((err) => {
         console.log("Error=>", err);

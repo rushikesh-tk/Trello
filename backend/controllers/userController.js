@@ -22,15 +22,12 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
   });
 
+  console.log("normal signup user===", user);
+
   if (user) {
-    res.status(201).json({
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
-    });
+    res
+      .status(201)
+      .json({ message: "success", token: generateToken(user._id) });
   } else {
     res.json(400);
     throw new Error("Invalid user data");
@@ -42,13 +39,11 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
+  console.log("normal login user===", user);
+
   if (user && (await user.matchPassword(password))) {
     res.json({
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      isAdmin: user.isAdmin,
+      message: "success",
       token: generateToken(user._id),
     });
   } else {
@@ -59,7 +54,7 @@ const authUser = asyncHandler(async (req, res) => {
 
 const createSendToken = (user, statusCode, res) => {
   try {
-    const token = generateToken(user.id);
+    const token = generateToken(user._id);
 
     var date = new Date(); // Now
     date.setDate(date.getDate() + 30);
@@ -78,18 +73,11 @@ const createSendToken = (user, statusCode, res) => {
 
     user.password = undefined;
 
-    console.log("cookieOptions====", cookieOptions);
-
     res.cookie("jwt", token, cookieOptions);
-
-    console.log(user);
 
     res.status(statusCode).json({
       message: "success",
       token,
-      data: {
-        user,
-      },
     });
   } catch (error) {
     console.log("Token error=>", error);
@@ -127,4 +115,27 @@ const googleAuth = catchAsync(async (req, res, next) => {
   }
 });
 
-export { registerUser, authUser, googleAuth };
+const getUserData = asyncHandler(async (req, res) => {
+  try {
+    const { _id } = req.user; // Assuming req.user is set by authentication middleware
+    const data = await User.findOne({ _id });
+
+    let userInfo = {};
+
+    if (data) {
+      userInfo = {
+        isAdmin: data?.isAdmin,
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        picture: data?.picture,
+      };
+    }
+
+    res.status(200).json({ userInfo, message: "success" });
+  } catch (error) {
+    console.log("user in error===");
+    res.status(500).json({ message: `Server error : ${error}` });
+  }
+});
+
+export { registerUser, authUser, googleAuth, getUserData };

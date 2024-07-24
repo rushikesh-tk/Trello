@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { GoGoal } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../actions/userActions";
+import { getUserData, logout } from "../actions/userActions";
 import toast from "react-hot-toast";
 
 const NavBar = () => {
@@ -11,7 +11,18 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const isUserLoggedIn = userLogin?.userInfo;
+
+  const userData = useSelector((state) => state.userData);
+
+  console.log("userData======", userData, isUserLoggedIn);
+  const { userInfo, loading } = userData;
+
+  useEffect(() => {
+    if (isUserLoggedIn?.token) {
+      dispatch(getUserData());
+    }
+  }, []);
 
   const handleLogout = () => {
     toast
@@ -35,21 +46,25 @@ const NavBar = () => {
       </Link>
 
       <div className="ml-auto flex space-x-5">
-        {userInfo ? (
+        {isUserLoggedIn?.token ? (
           <>
-            <div className="flex justify-center items-center ">
-              {userInfo && userInfo?.firstName && (
-                <div className="text-white font-bold text-lg ">
-                  Hi, {userInfo?.firstName}
-                </div>
-              )}
-              {userInfo && userInfo?.picture && (
-                <img
-                  src={userInfo?.picture}
-                  className="h-10 border border-white rounded-full ml-4"
-                />
-              )}
-            </div>
+            {loading ? (
+              <></>
+            ) : (
+              <div className="flex justify-center items-center ">
+                {userInfo?.userInfo && userInfo?.userInfo?.firstName && (
+                  <div className="text-white font-bold text-lg ">
+                    Hi, {userInfo?.userInfo?.firstName}
+                  </div>
+                )}
+                {userInfo?.userInfo && userInfo?.userInfo?.picture && (
+                  <img
+                    src={userInfo?.userInfo?.picture}
+                    className="h-10 border border-white rounded-full ml-4"
+                  />
+                )}
+              </div>
+            )}
 
             <div className="text-white">
               <button

@@ -18,10 +18,16 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://trelloapp-eight.vercel.app", // Replace this with your client URL
+  origin: "https://trelloapp-eight.vercel.app",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
-};
+}; // For production
+
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true,
+// }; // For development
 
 app.options("*", cors(corsOptions)); // Preflight handling
 

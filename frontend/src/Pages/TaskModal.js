@@ -111,7 +111,7 @@ const TaskModal = ({ setShowModal, refreshTodos, type, currTodoData }) => {
             <label className="block text-sm font-medium text-gray-500">
               Description
             </label>
-            <p className="mt-1 p-2 block w-full border border-gray-900 rounded-md mb-4">
+            <p className="mt-1 p-2 block w-full border border-gray-900 rounded-md mb-4 whitespace-normal break-words">
               {description}
             </p>
           </div>
