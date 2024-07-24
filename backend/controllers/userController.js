@@ -4,11 +4,12 @@ import generateToken from "../utils/generateToken.js";
 import axios from "axios";
 import oauth2Client from "../utils/oauth2Client.js";
 import catchAsync from "../utils/catchAsync.js";
+import sanitize from "mongo-sanitize";
 
 const registerUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
-  const userExist = await User.findOne({ email });
+  const userExist = await User.findOne({ email: sanitize(email) });
 
   if (userExist) {
     res.status(400);
@@ -37,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: sanitize(email) });
 
   console.log("normal login user===", user);
 
@@ -96,7 +97,7 @@ const googleAuth = catchAsync(async (req, res, next) => {
       `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
     );
 
-    let user = await User.findOne({ email: userRes.data.email });
+    let user = await User.findOne({ email: sanitize(userRes.data.email) });
 
     if (!user) {
       console.log("New User found");
@@ -118,7 +119,7 @@ const googleAuth = catchAsync(async (req, res, next) => {
 const getUserData = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user; // Assuming req.user is set by authentication middleware
-    const data = await User.findOne({ _id });
+    const data = await User.findOne({ _id: sanitize(_id) });
 
     let userInfo = {};
 

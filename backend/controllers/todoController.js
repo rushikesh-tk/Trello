@@ -1,10 +1,11 @@
 import asyncHandler from "express-async-handler";
 import Todo from "../models/todoModel.js";
+import sanitize from "mongo-sanitize";
 
 const getTodos = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user; // Assuming req.user is set by authentication middleware
-    const data = await Todo.findOne({ user: _id });
+    const data = await Todo.findOne({ user: sanitize(_id) });
 
     if (data) {
       res.status(200).json({
@@ -28,7 +29,7 @@ const createTodo = asyncHandler(async (req, res) => {
     throw new Error("Title is required");
   }
 
-  const todoList = await Todo.findOne({ user: _id });
+  const todoList = await Todo.findOne({ user: sanitize(_id) });
 
   if (todoList) {
     todoList.todos.push({
@@ -64,7 +65,7 @@ const updateTodo = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { todoId, title, description, status } = req.body;
 
-  const todoList = await Todo.findOne({ user: _id });
+  const todoList = await Todo.findOne({ user: sanitize(_id) });
 
   if (todoList) {
     const todo = todoList.todos.id(todoId);
@@ -91,7 +92,7 @@ const deleteTodo = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const todoId = req.params.id;
 
-  const todoList = await Todo.findOne({ user: _id });
+  const todoList = await Todo.findOne({ user: sanitize(_id) });
 
   if (todoList) {
     const todo = todoList.todos.id(todoId);
